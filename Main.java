@@ -1,31 +1,56 @@
-package Snorlax054;
 public class Main {
-    public static Node<Integer> ex2(Node<Integer> head) {
-    }
-
-
-    private static boolean exists(Node<Integer> head, int val) {
-        Node<Integer> c = head;
-        while (c != null) {
-            if (c.getValue() == val)
-                return true;
-            c = c.getNext();
-        }
-        return false;
-    }
-
-    public static void printList(Node<Integer> head) {
-        Node<Integer> cur = head;
-        while (cur != null) {
-            System.out.print(cur.getValue() + " ");
-            cur = cur.getNext();
-        }
-        System.out.println();
-    }
-    
     public static void main(String[] args) {
         Person person1 = new Person("David", "Cohen");
-        Node<Person>people=new Node<Person>(person1);
-        people.setNext( new Node<Person>( new Person("David", "Cohen")));
+        Person person2 = new Person("Ariel", "Reiman");
+        Person person3 = new Person("Yoav", "Dror");
+
+        Node<Person> head = new Node<>(person1);
+        head.setNext(new Node<>(person2));
+        head.getNext().setNext(new Node<>(person3));
+
+        System.out.println("List before inserting guests:");
+        printList(head);
+
+        head = insertGuests(head);
+
+        System.out.println("\nList after inserting guests:");
+        printList(head);
     }
+
+    public static void printList(Node<Person> head) {
+        Node<Person> current = head;
+        while (current != null) {
+            System.out.print(current.getValue() + " -> ");
+            current = current.getNext();
+        }
+        System.out.println("null");
+    }
+    public static Node<Person> insertGuests(Node<Person> head) {
+	        Node<Person> current = head;
+	        Node<Person> newHead = null;
+	        Node<Person> last = null;
+	        int guestNumber = 1;
+	
+	        while (current != null) {
+	            Person guest = new Person("Guest" + guestNumber, "");
+	            Node<Person> guestNode = new Node<Person>(guest);
+	
+	            if (newHead == null) {
+	                newHead = guestNode;
+	                last = guestNode;
+	            } else {
+	                last.setNext(guestNode);
+	                last = guestNode;
+	            }
+	            guestNumber++;
+	
+	            last.setNext(current);
+	            last = current;
+	            current = current.getNext();
+	        }
+
+        return newHead;
+    }
+
+
 }
